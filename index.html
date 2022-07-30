@@ -8,7 +8,30 @@
   </head>
 
   <body>
-    <h1>Weather Dashboard</h1>
+    <header>
+        <h1>Weather Dashboard</h1>
+    </header>
+
+    <section id="city_sel_container">
+        <div id="city_search">
+            <h3>Search for a City</h3>
+            <input type="text" id="city_input">
+    
+            <button type="button" onclick="search_city()">Search</button>
+        </div>
+    </section>
+    
+    <section id="city_conditions_container">
+        <!-- Dynamic city conditions are displayed here -->
+        <div id="city_conditions"></div>
+    </section>
+
+    <section id="city_forecast_container">
+        <h4>5-Day Forecast</h4>
+
+        <!-- Dynamic weather forecasts are displayed here -->
+        <div id="city_forecast"></div>
+    </section>
 
     <script src="./assets/js/script.js"></script>
   </body>
