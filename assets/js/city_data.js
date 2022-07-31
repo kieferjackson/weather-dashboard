@@ -8,15 +8,15 @@ class City
         this.name       = name;
         this.latitude   = latitude;
         this.longitude  = longitude;
+        // This defines whether or not the city is saved to local storage (the city has previously been selected)
+        this.saved = localStorage.getItem(name) === 'selected';
     }
-
-    // This defines whether or not the city is saved to local storage (the city has previously been selected)
-    saved = localStorage.getItem(this.name) === 'selected';
 
     save ()
     {
+        // Update the saved property for this instance
         this.saved = true;
-
+        
         localStorage.setItem(this.name, 'selected')
     }
     
@@ -54,11 +54,18 @@ let cities =
     'Chicago':
         new City('Chicago', 41.8818, -87.6232),
     'San Francisco':
-        new City('San Francisco',  37.7338, -122.4467),
+        new City('San Francisco', 37.7338, -122.4467),
     'Seattle': 
         new City('Seattle', 40.7128, -122.3351),
     'Denver':
         new City('Denver', 39.7420, -104.9915),
     'Atlanta':
         new City('Atlanta', 33.7537, -84.3863),
+}
+
+// Iterate through cities to determine which have previously been selected, and display them if so
+for (const city in cities)
+{
+    if (cities[city].saved)
+        cities[city].generate_sel();
 }
