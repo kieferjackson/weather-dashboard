@@ -64,6 +64,9 @@ fetch(requested_url)
         // Display current weather conditions
         display_weather_conditions(data, city_name);
 
+        // Display five day weather forecast
+        display_weather_forecast(data, city_name);
+
         console.log(data);
 
     });
@@ -71,13 +74,7 @@ fetch(requested_url)
 
 function display_weather_conditions (weather_data, city_name) 
 {
-    let weather_desc = weather_data.current.weather[0].main;
-    let weather_id = weather_data.current.weather[0].id;
-    weather_id = 750;
-    
-    // Check for atmospheric weather conditions (fog, dust, etc) between 700 and 800
-    if (weather_id > 700 || weather_id < 800)
-        weather_desc = 'Atmosphere';
+    let weather_desc = get_weather_description(weather_data);
 
     // Create heading with city name and its date
     let city_heading = document.createElement("h3");
@@ -109,4 +106,21 @@ function display_weather_conditions (weather_data, city_name)
     // Append heading and weather conditions to page
     CITY_CONDITIONS.appendChild(city_heading);
     CITY_CONDITIONS.appendChild(conditions);
+}
+
+function display_weather_forecast(weather_data, city_name)
+{
+
+}
+
+function get_weather_description (weather_data)
+{
+    let weather_desc = weather_data.current.weather[0].main;
+    let weather_id = weather_data.current.weather[0].id;
+    
+    // Check for atmospheric weather conditions (fog, dust, etc) between 700 and 800
+    if (weather_id > 700 || weather_id < 800)
+        weather_desc = 'Atmosphere';
+
+    return weather_desc;
 }
