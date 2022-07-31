@@ -2,6 +2,8 @@ const OW_URL = 'https://api.openweathermap.org/data/2.5/onecall';
 const API_KEY = '5e421b2b8615d032baea541e45065bb4';
 
 const CITY_FIELD = document.querySelector('#city_input');
+const CITY_CONDITIONS = document.querySelector('#city_conditions');
+const CITY_FORECAST = document.querySelector('#city_forecast');
 
 function search_city() 
 {
@@ -30,7 +32,7 @@ function search_city()
     
         let forecast_url = `${OW_URL}?lat=${lat_coord}&lon=${lon_coord}&units=imperial&appid=${API_KEY}`;
     
-        get_weather_forecast(forecast_url);
+        get_weather_forecast(forecast_url, sel_city);
     }
 
     
@@ -38,7 +40,7 @@ function search_city()
 
 
 
-function get_weather_forecast(requested_url) 
+function get_weather_forecast(requested_url, city_name) 
 {
 fetch(requested_url)
     .then( (response) => {
@@ -48,7 +50,46 @@ fetch(requested_url)
     return response.json();
     })
     .then( (data) => {
-    console.log(data);
+        // Display current weather conditions
+        display_weather_conditions(data, city_name);
+
+        console.log(data);
 
     });
+}
+
+function display_weather_conditions (weather_data, city_name) 
+{
+    // Create heading with city name and its date
+    let city_heading = document.createElement("h3");
+    city_heading.innerText = city_name;
+
+    let uv_index = weather_data.current.uvi;
+    let uvi_danger;
+
+    // Check UV Index value
+    if (uv_index < 3)
+        uvi_danger = 'low'; 
+    
+    else if (uv_index < 6)
+        uvi_danger = 'moderate'; 
+    
+    else
+        uvi_danger = 'severe'; 
+    
+
+    let conditions = document.createElement("p");
+    conditions.innerHTML = 
+    `
+        Temp: ${weather_data.current.temp} F<br>
+        Wind: ${weather_data.current.wind_speed} mph<br>
+        Humidity: ${weather_data.current.humidity}% <br>
+        UV Index: <em class='${uvi_danger}_warning'>${uv_index}</em> <br>
+    `;
+
+    // Append heading and weather conditions to page
+    CITY_CONDITIONS.appendChild(city_heading);
+    CITY_CONDITIONS.appendChild(conditions);
+
+    
 }
