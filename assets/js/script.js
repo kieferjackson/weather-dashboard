@@ -65,7 +65,7 @@ fetch(requested_url)
         display_weather_conditions(data, city_name);
 
         // Display five day weather forecast
-        display_weather_forecast(data, city_name);
+        display_weather_forecast(data);
 
         console.log(data);
 
@@ -74,7 +74,16 @@ fetch(requested_url)
 
 function display_weather_conditions (weather_data, city_name) 
 {
-    let weather_desc = get_weather_description(weather_data);
+    // Clear the forecast container if there are already forecasts in it
+    if (CITY_CONDITIONS.childElementCount > 0)
+    {
+        for (var i = 0 ; i < CITY_CONDITIONS.childElementCount ; i++)
+        {
+            CITY_CONDITIONS.children[i].remove();
+        }
+    }
+
+    let weather_desc = get_weather_description(weather_data.current);
 
     // Create heading with city name and its date
     let city_heading = document.createElement("h3");
@@ -108,15 +117,62 @@ function display_weather_conditions (weather_data, city_name)
     CITY_CONDITIONS.appendChild(conditions);
 }
 
-function display_weather_forecast(weather_data, city_name)
+function display_weather_forecast(weather_data)
 {
+    // Clear the forecast container if there are already forecasts in it
+    if (CITY_FORECAST.childElementCount > 0)
+    {
+        for (var i = 0 ; i < CITY_FORECAST.childElementCount ; i++)
+        {
+            CITY_FORECAST.children[i].remove();
+        }
+    }
 
+    let weekly_forecast = weather_data.daily;
+    const FORECAST_DAYS = 5;
+
+    // Iterate through five days away from the current date
+    for (var i = 1 ; i <= FORECAST_DAYS ; i++) 
+    {
+        let forecast = document.createElement("section");
+        forecast.class = 'forecast_box';
+
+        // Get the date of this forecast
+        let date = new Date (weekly_forecast[i].dt * 1000);
+
+        let month   =   date.toLocaleString("en-US", {month: "numeric"});
+        let day     =   date.toLocaleString("en-US", {day: "numeric"})
+        let year    =   date.toLocaleString("en-US", {year: "numeric"})
+
+        // Create the heading for the forecast's date
+        let forecast_date = document.createElement("h3");
+        forecast_date.innerText = `${month}/${day}/${year}`;
+
+        // Create the paragraph for conditions to be displayed
+        let forecast_conditions = document.createElement("p");
+
+        // Set the weather icon
+        let weather_desc = get_weather_description(weekly_forecast[i]);
+
+        forecast_conditions.innerHTML = 
+        `
+            ${WEATHER_ICONS[weather_desc]}
+            Temp: ${weekly_forecast[i].temp.day} F <br>
+            Wind: ${weekly_forecast[i].wind_speed} mph<br>
+            Humdity: ${weekly_forecast[i].humidity}%<br>
+        `;
+
+        forecast.appendChild(forecast_date);
+        forecast.appendChild(forecast_conditions)
+
+        CITY_FORECAST.appendChild(forecast)
+    }
 }
 
 function get_weather_description (weather_data)
 {
-    let weather_desc = weather_data.current.weather[0].main;
-    let weather_id = weather_data.current.weather[0].id;
+    let weather_desc = weather_data.weather[0].main;
+    let weather_id = weather_data.weather[0].id;
     
     // Check for atmospheric weather conditions (fog, dust, etc) between 700 and 800
     if (weather_id > 700 || weather_id < 800)
