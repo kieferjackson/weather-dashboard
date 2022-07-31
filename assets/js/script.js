@@ -5,6 +5,17 @@ const CITY_FIELD = document.querySelector('#city_input');
 const CITY_CONDITIONS = document.querySelector('#city_conditions');
 const CITY_FORECAST = document.querySelector('#city_forecast');
 
+const WEATHER_ICONS = 
+{
+    Thunderstorm: '&#127785',
+    Drizzle: '&#127782',
+    Rain: '&#127783',
+    Snow: '&#127784',
+    Clear: '&#127774',
+    Clouds: '&#127781',
+    Atmosphere: '&#127786'
+};
+
 function search_city() 
 {
     let sel_city = CITY_FIELD.value;
@@ -60,9 +71,17 @@ fetch(requested_url)
 
 function display_weather_conditions (weather_data, city_name) 
 {
+    let weather_desc = weather_data.current.weather[0].main;
+    let weather_id = weather_data.current.weather[0].id;
+    weather_id = 750;
+    
+    // Check for atmospheric weather conditions (fog, dust, etc) between 700 and 800
+    if (weather_id > 700 || weather_id < 800)
+        weather_desc = 'Atmosphere';
+
     // Create heading with city name and its date
     let city_heading = document.createElement("h3");
-    city_heading.innerText = city_name;
+    city_heading.innerHTML = `${city_name} ${WEATHER_ICONS[weather_desc]}`;
 
     let uv_index = weather_data.current.uvi;
     let uvi_danger;
@@ -90,6 +109,4 @@ function display_weather_conditions (weather_data, city_name)
     // Append heading and weather conditions to page
     CITY_CONDITIONS.appendChild(city_heading);
     CITY_CONDITIONS.appendChild(conditions);
-
-    
 }
