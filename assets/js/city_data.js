@@ -1,3 +1,5 @@
+// Select the city selection container for appending city selection buttons
+const CITY_SEL = document.querySelector('#city_selection_container');
 
 class City 
 {
@@ -7,7 +9,30 @@ class City
         this.latitude   = latitude;
         this.longitude  = longitude;
     }
+
+    // This defines whether or not the city is saved to local storage (the city has previously been selected)
+    saved = localStorage.getItem(this.name) === 'selected';
+
+    save ()
+    {
+        this.saved = true;
+
+        localStorage.setItem(this.name, 'selected')
+    }
     
+    generate_sel () 
+    {
+        // Create city selection button element
+        let cs_btn = document.createElement("button");
+
+        cs_btn.class = 'cs_btn';
+
+        // Set the city data attribute and button text to this city's name
+        cs_btn.dataset.city = cs_btn.innerText = this.name;
+
+        // Append button to its container
+        CITY_SEL.appendChild(cs_btn);
+    }
 }
 
 let cities = 

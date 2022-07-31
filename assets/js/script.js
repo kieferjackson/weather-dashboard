@@ -7,12 +7,33 @@ function search_city()
 {
     let sel_city = CITY_FIELD.value;
 
-    let lat_coord = cities['New York'].latitude;
-    let lon_coord = cities['New York'].longitude;
+    if (cities[sel_city] === undefined)
+    {
+        // The selected city is not one of the available options
+        console.log(`${sel_city} is not a valid option`);
+    }
+    else
+    {
+        // Check if that city has previously been selected and saved locally
+        if (!cities[sel_city].saved) 
+        {
+            // Save this city to local storage
+            cities[sel_city].save();
 
-    let forecast_url = `${OW_URL}?lat=${lat_coord}&lon=${lon_coord}&units=imperial&appid=${API_KEY}`;
+            // Create a button to select this city again in the future
+            cities[sel_city].generate_sel();
+        }
+        
+        // Get the coordinates of the selected city
+        let lat_coord = cities[sel_city].latitude;
+        let lon_coord = cities[sel_city].longitude;
+    
+        let forecast_url = `${OW_URL}?lat=${lat_coord}&lon=${lon_coord}&units=imperial&appid=${API_KEY}`;
+    
+        get_weather_forecast(forecast_url);
+    }
 
-    get_weather_forecast(forecast_url);
+    
 }
 
 
