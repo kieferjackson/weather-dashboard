@@ -77,10 +77,7 @@ function display_weather_conditions (weather_data, city_name)
     // Clear the forecast container if there are already forecasts in it
     if (CITY_CONDITIONS.childElementCount > 0)
     {
-        for (var i = 0 ; i < CITY_CONDITIONS.childElementCount ; i++)
-        {
-            CITY_CONDITIONS.children[i].remove();
-        }
+        CITY_CONDITIONS.children[0].remove();
     }
 
     let weather_desc = get_weather_description(weather_data.current);
@@ -112,9 +109,13 @@ function display_weather_conditions (weather_data, city_name)
         UV Index: <em class='${uvi_danger}_warning'>${uv_index}</em> <br>
     `;
 
+    // Create container for the city's current weather conditions
+    let current_conditions = document.createElement("section");
+
     // Append heading and weather conditions to page
-    CITY_CONDITIONS.appendChild(city_heading);
-    CITY_CONDITIONS.appendChild(conditions);
+    current_conditions.appendChild(city_heading);
+    current_conditions.appendChild(conditions);
+    CITY_CONDITIONS.appendChild(current_conditions);
 }
 
 function display_weather_forecast(weather_data)
@@ -122,11 +123,11 @@ function display_weather_forecast(weather_data)
     // Clear the forecast container if there are already forecasts in it
     if (CITY_FORECAST.childElementCount > 0)
     {
-        for (var i = 0 ; i < CITY_FORECAST.childElementCount ; i++)
-        {
-            CITY_FORECAST.children[i].remove();
-        }
+        CITY_FORECAST.children[0].remove();
     }
+
+    // Create container for the city's five day forecasts
+    let fiveday_forecasts = document.createElement("section");
 
     let weekly_forecast = weather_data.daily;
     const FORECAST_DAYS = 5;
@@ -156,17 +157,19 @@ function display_weather_forecast(weather_data)
 
         forecast_conditions.innerHTML = 
         `
-            ${WEATHER_ICONS[weather_desc]}
+            ${WEATHER_ICONS[weather_desc]} <br>
             Temp: ${weekly_forecast[i].temp.day} F <br>
             Wind: ${weekly_forecast[i].wind_speed} mph<br>
-            Humdity: ${weekly_forecast[i].humidity}%<br>
+            Humidity: ${weekly_forecast[i].humidity}%<br>
         `;
 
         forecast.appendChild(forecast_date);
-        forecast.appendChild(forecast_conditions)
+        forecast.appendChild(forecast_conditions);
 
-        CITY_FORECAST.appendChild(forecast)
+        fiveday_forecasts.appendChild(forecast)
     }
+
+    CITY_FORECAST.appendChild(fiveday_forecasts)
 }
 
 function get_weather_description (weather_data)
