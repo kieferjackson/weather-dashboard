@@ -25,7 +25,7 @@ class City
         // Create city selection button element
         let cs_btn = document.createElement("button");
 
-        cs_btn.class = 'cs_btn';
+        cs_btn.className = 'cs_btn';
 
         // Set the city data attribute and button text to this city's name
         cs_btn.dataset.city = cs_btn.innerText = this.name;

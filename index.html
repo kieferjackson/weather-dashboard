@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Dashboard</title>
     <link rel="stylesheet" href="./assets/css/style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap" rel="stylesheet">
   </head>
 
   <body>
@@ -12,28 +16,32 @@
         <h1>Weather Dashboard</h1>
     </header>
 
-    <section id="city_sel_container">
-        <div id="city_search">
-            <h3>Search for a City</h3>
-            <input type="text" id="city_input">
+    <main>
+        <section id="city_sel_container">
+            <div id="city_search">
+                <h3>Search for a City</h3>
+                <input type="text" id="city_input">
+        
+                <button type="button" onclick="search_city()">Search</button>
+            </div>
     
-            <button type="button" onclick="search_city()">Search</button>
-        </div>
-
-        <div id="city_selection_container"></div>
-    </section>
-    
-    <section id="city_conditions_container">
-        <!-- Dynamic city conditions are displayed here -->
-        <div id="city_conditions"></div>
-    </section>
-
-    <section id="city_forecast_container">
-        <h4>5-Day Forecast</h4>
-
-        <!-- Dynamic weather forecasts are displayed here -->
-        <div id="city_forecast"></div>
-    </section>
+            <div id="city_selection_container"></div>
+        </section>
+        
+        <section id="forecast_display">
+            <section id="city_conditions_container">
+                <!-- Dynamic city conditions are displayed here -->
+                <div id="city_conditions"></div>
+            </section>
+        
+            <section id="city_forecast_container">
+                <h4>5-Day Forecast</h4>
+        
+                <!-- Dynamic weather forecasts are displayed here -->
+                <div id="city_forecast"></div>
+            </section>
+        </section>
+    </main>
 
     <script src="./assets/js/city_data.js"></script>
     <script src="./assets/js/script.js"></script>

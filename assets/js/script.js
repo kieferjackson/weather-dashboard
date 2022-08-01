@@ -16,6 +16,22 @@ const WEATHER_ICONS =
     Atmosphere: '&#127786'
 };
 
+document.addEventListener( 'click', (event) => 
+{
+    if (event.target.className === "cs_btn")
+    {
+        let city_name = event.target.dataset.city;
+
+        // Get the coordinates of the selected city
+        let lat_coord = cities[city_name].latitude;
+        let lon_coord = cities[city_name].longitude;
+    
+        let forecast_url = `${OW_URL}?lat=${lat_coord}&lon=${lon_coord}&units=imperial&appid=${API_KEY}`;
+
+        get_weather_forecast(forecast_url, city_name);
+    }
+});
+
 function search_city() 
 {
     let sel_city = CITY_FIELD.value;
@@ -49,8 +65,6 @@ function search_city()
     
 }
 
-
-
 function get_weather_forecast(requested_url, city_name) 
 {
 fetch(requested_url)
@@ -82,9 +96,16 @@ function display_weather_conditions (weather_data, city_name)
 
     let weather_desc = get_weather_description(weather_data.current);
 
+    // Get the current date
+    let date = new Date (weather_data.current.dt * 1000);
+
+    let month   =   date.toLocaleString("en-US", {month: "numeric"});
+    let day     =   date.toLocaleString("en-US", {day: "numeric"});
+    let year    =   date.toLocaleString("en-US", {year: "numeric"});
+
     // Create heading with city name and its date
     let city_heading = document.createElement("h3");
-    city_heading.innerHTML = `${city_name} ${WEATHER_ICONS[weather_desc]}`;
+    city_heading.innerHTML = `${city_name} (${month}/${day}/${year}) ${WEATHER_ICONS[weather_desc]}`;
 
     let uv_index = weather_data.current.uvi;
     let uvi_danger;
@@ -136,14 +157,14 @@ function display_weather_forecast(weather_data)
     for (var i = 1 ; i <= FORECAST_DAYS ; i++) 
     {
         let forecast = document.createElement("section");
-        forecast.class = 'forecast_box';
+        forecast.className = 'forecast_box';
 
         // Get the date of this forecast
         let date = new Date (weekly_forecast[i].dt * 1000);
 
         let month   =   date.toLocaleString("en-US", {month: "numeric"});
-        let day     =   date.toLocaleString("en-US", {day: "numeric"})
-        let year    =   date.toLocaleString("en-US", {year: "numeric"})
+        let day     =   date.toLocaleString("en-US", {day: "numeric"});
+        let year    =   date.toLocaleString("en-US", {year: "numeric"});
 
         // Create the heading for the forecast's date
         let forecast_date = document.createElement("h3");
