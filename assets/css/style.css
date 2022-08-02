@@ -1,14 +1,49 @@
 
+:root
+{
+    --blue-sky: linear-gradient(225deg, rgb(66, 63, 199) 0%, rgb(58, 147, 199) 80%, rgb(42, 207, 219) 100%);
+}
+
 * {
     font-family: 'Oswald', Helvetica, Arial, sans-serif;
 }
 
 header {
-    background-color: dodgerblue;
+    background: var(--blue-sky);
     border-bottom: 6px solid aliceblue;
     padding: 20px;
 }
 
 header h1 {
     color: aliceblue;
+}
+
+#city_sel_container
+{
+    margin-top: 1vh;
+}
+
+.cs_btn
+{
+    background: var(--blue-sky);
+    color: #fff;
+    font-size: larger;
+    font-weight: bold;
+
+    border: none;
+    border-radius: 10px;
+
+    width: 100%;
+    min-width: fit-content;
+
+    margin: 10px auto;
+    display: block;
+}
+
+#search_button
+{
+    color: #fff;
+    background-color: #000;
+    font-size: larger;
+    font-weight: bold;
 }
