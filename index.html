@@ -9,6 +9,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" 
+        rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" 
+        crossorigin="anonymous"
+    >
   </head>
 
   <body>
@@ -17,30 +24,37 @@
     </header>
 
     <main>
-        <section id="city_sel_container">
-            <div id="city_search">
-                <h3>Search for a City</h3>
-                <input type="text" id="city_input">
-        
-                <button type="button" onclick="search_city()">Search</button>
+        <div class="container">
+            <div class="row">
+                <!-- City Search and Selection Menu -->
+                <div class="col-3" id="city_sel_container">
+                    <div class="" id="city_search">
+                        <h3>Search for a City</h3>
+                        <input type="text" id="city_input">
+                
+                        <button type="button" onclick="search_city()">Search</button>
+                    </div>
+            
+                    <div class="d-flex justify-content-center" id="city_selection_container"></div>
+                </div>
+                
+                <!-- Current Conditions and Weather Forecast Display -->
+                <div class="col-9" id="forecast_display">
+                    <section id="city_conditions_container">
+                        <!-- Dynamic city conditions are displayed here -->
+                        <div id="city_conditions"></div>
+                    </section>
+                
+                    <section id="city_forecast_container">
+                        <h4>5-Day Forecast</h4>
+                
+                        <!-- Dynamic weather forecasts are displayed here -->
+                        <div class="container" id="city_forecast"></div>
+                        
+                    </section>
+                </div>
             </div>
-    
-            <div id="city_selection_container"></div>
-        </section>
-        
-        <section id="forecast_display">
-            <section id="city_conditions_container">
-                <!-- Dynamic city conditions are displayed here -->
-                <div id="city_conditions"></div>
-            </section>
-        
-            <section id="city_forecast_container">
-                <h4>5-Day Forecast</h4>
-        
-                <!-- Dynamic weather forecasts are displayed here -->
-                <div id="city_forecast"></div>
-            </section>
-        </section>
+        </div>
     </main>
 
     <script src="./assets/js/city_data.js"></script>

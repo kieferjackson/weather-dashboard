@@ -148,7 +148,8 @@ function display_weather_forecast(weather_data)
     }
 
     // Create container for the city's five day forecasts
-    let fiveday_forecasts = document.createElement("section");
+    let fiveday_forecasts = document.createElement("div");
+    fiveday_forecasts.className = 'row';
 
     let weekly_forecast = weather_data.daily;
     const FORECAST_DAYS = 5;
@@ -156,8 +157,11 @@ function display_weather_forecast(weather_data)
     // Iterate through five days away from the current date
     for (var i = 1 ; i <= FORECAST_DAYS ; i++) 
     {
-        let forecast = document.createElement("section");
-        forecast.className = 'forecast_box';
+        let forecast = document.createElement("div");
+        forecast.className = 'forecast_box card col-sm-4';
+
+        let fc_card_body = document.createElement("div");
+        fc_card_body.className = 'card-body';
 
         // Get the date of this forecast
         let date = new Date (weekly_forecast[i].dt * 1000);
@@ -169,9 +173,11 @@ function display_weather_forecast(weather_data)
         // Create the heading for the forecast's date
         let forecast_date = document.createElement("h3");
         forecast_date.innerText = `${month}/${day}/${year}`;
+        forecast_date.className = 'card-title';
 
         // Create the paragraph for conditions to be displayed
         let forecast_conditions = document.createElement("p");
+        forecast_conditions.className = 'card-text';
 
         // Set the weather icon
         let weather_desc = get_weather_description(weekly_forecast[i]);
@@ -184,8 +190,10 @@ function display_weather_forecast(weather_data)
             Humidity: ${weekly_forecast[i].humidity}%<br>
         `;
 
-        forecast.appendChild(forecast_date);
-        forecast.appendChild(forecast_conditions);
+        fc_card_body.appendChild(forecast_date);
+        fc_card_body.appendChild(forecast_conditions);
+
+        forecast.appendChild(fc_card_body);
 
         fiveday_forecasts.appendChild(forecast)
     }

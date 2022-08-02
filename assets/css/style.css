@@ -3,10 +3,6 @@
     font-family: 'Oswald', Helvetica, Arial, sans-serif;
 }
 
-body {
-    margin: 0;
-}
-
 header {
     background-color: dodgerblue;
     border-bottom: 6px solid aliceblue;
@@ -16,29 +12,3 @@ header {
 header h1 {
     color: aliceblue;
 }
-
-main {
-    display: inline-flex;
-}
-
-#city_sel_container {
-    display: inline;
-    width: fit-content;
-    align-items: center;
-    justify-content: center;
-}
-
-.cs_btn {
-    display: block;
-    align-items: center;
-}
-
-#city_forecast {
-    display: inline;
-    width: fit-content;
-} 
-
-.forecast_box {
-    display: inline;
-    width: fit-content;
-} 
