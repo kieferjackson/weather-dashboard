@@ -4,6 +4,10 @@ const CITY_SEL = document.querySelector('#city_selection_container');
 // Container for all selected cities
 let cities = JSON.parse(localStorage.getItem('cities'));
 
+// If there are no previously saved cities, initialize the cities object
+if (cities === null)
+    cities = {};
+
 class City 
 {
     constructor (name, latitude, longitude) 

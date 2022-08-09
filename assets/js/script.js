@@ -70,18 +70,25 @@ function get_city_coords(city_url, city_name)
             console.log(data);
             let city_data = data[0];
 
-            // Add searched city to cities array, save locally, and generate the selection button
-            cities[city_name] = new City (city_data.name, city_data.lat, city_data.lon);
-            cities[city_name].save();
-            cities[city_name].generate_sel();
+            // Check that the searched city is in the OpenWeather API
+            if (city_data !== undefined)
+            {
+                // Add searched city to cities array, save locally, and generate the selection button
+                cities[city_name] = new City (city_data.name, city_data.lat, city_data.lon);
+                cities[city_name].save();
+                cities[city_name].generate_sel();
 
-            // Now that the city coords have been fetched, fetch the API and get the weather forecast
-            let lat_coord = cities[city_name].latitude;
-            let lon_coord = cities[city_name].longitude;
-        
-            let forecast_url = `${OW_URL}?lat=${lat_coord}&lon=${lon_coord}&units=imperial&appid=${API_KEY}`;
-        
-            get_weather_forecast(forecast_url, city_name);
+                // Now that the city coords have been fetched, fetch the API and get the weather forecast
+                let lat_coord = cities[city_name].latitude;
+                let lon_coord = cities[city_name].longitude;
+
+                let forecast_url = `${OW_URL}?lat=${lat_coord}&lon=${lon_coord}&units=imperial&appid=${API_KEY}`;
+
+                get_weather_forecast(forecast_url, city_name);
+            }
+            else
+                console.log(`${city_name} is not a valid city name. Please try again`);
+
         });
 }
 
