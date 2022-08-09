@@ -47,3 +47,15 @@ header h1 {
     font-size: larger;
     font-weight: bold;
 }
+
+/* UVI Warning Styling */
+em
+{
+    padding: 3px;
+    border-radius: 5px;
+    font-style: normal;
+}
+
+em.low_warning      { background-color: greenyellow; }
+em.moderate_warning { background-color: yellow; }
+em.severe_warning   { background-color: red; }
