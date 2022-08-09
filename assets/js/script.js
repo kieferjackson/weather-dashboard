@@ -1,4 +1,5 @@
 const OW_URL = 'https://api.openweathermap.org/data/2.5/onecall';
+const GEO_CITY_URL = 'http://api.openweathermap.org/geo/1.0/direct';
 const API_KEY = '5e421b2b8615d032baea541e45065bb4';
 
 const CITY_FIELD = document.querySelector('#city_input');
@@ -34,12 +35,15 @@ document.addEventListener( 'click', (event) =>
 
 function search_city() 
 {
-    let sel_city = CITY_FIELD.value;
+    let sel_city = CITY_FIELD.value.toLowerCase();
 
     if (cities[sel_city] === undefined)
     {
-        // The selected city is not one of the available options
-        console.log(`${sel_city} is not a valid option`);
+        // Define the URL to find the coordinates of the entered city
+        let city_url = `${GEO_CITY_URL}?q=${sel_city}&appid=${API_KEY}`;
+
+        // The selected city has not previously been searched, so fetch the API for the city's coordinates
+        get_city_coords(city_url, sel_city);
     }
     else
     {
@@ -65,25 +69,44 @@ function search_city()
     
 }
 
+function get_city_coords(city_url, city_name)
+{
+    fetch(city_url)
+        .then( (response) => {
+        // Log the requested url address
+        console.log(`Data from: ${city_url}`);
+
+        return response.json();
+        })
+        .then( (data) => {
+            console.log(data);
+            let city_data = data[0];
+
+            // Add searched city to cities array, and save locally
+            cities[city_name] = new City (city_data.name, city_data.lat, city_data.lon);
+            cities[city_name].save();
+        });
+}
+
 function get_weather_forecast(requested_url, city_name) 
 {
-fetch(requested_url)
-    .then( (response) => {
-    // Log the requested url address
-    console.log(`Data from: ${requested_url}`);
-    
-    return response.json();
-    })
-    .then( (data) => {
-        // Display current weather conditions
-        display_weather_conditions(data, city_name);
+    fetch(requested_url)
+        .then( (response) => {
+        // Log the requested url address
+        console.log(`Data from: ${requested_url}`);
+        
+        return response.json();
+        })
+        .then( (data) => {
+            // Display current weather conditions
+            display_weather_conditions(data, city_name);
 
-        // Display five day weather forecast
-        display_weather_forecast(data);
+            // Display five day weather forecast
+            display_weather_forecast(data);
 
-        console.log(data);
+            console.log(data);
 
-    });
+        });
 }
 
 function display_weather_conditions (weather_data, city_name) 
