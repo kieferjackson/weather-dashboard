@@ -47,16 +47,6 @@ function search_city()
     }
     else
     {
-        // Check if that city has previously been selected and saved locally
-        if (!cities[sel_city].saved) 
-        {
-            // Save this city to local storage
-            cities[sel_city].save();
-
-            // Create a button to select this city again in the future
-            cities[sel_city].generate_sel();
-        }
-        
         // Get the coordinates of the selected city
         let lat_coord = cities[sel_city].latitude;
         let lon_coord = cities[sel_city].longitude;
@@ -65,8 +55,6 @@ function search_city()
     
         get_weather_forecast(forecast_url, sel_city);
     }
-
-    
 }
 
 function get_city_coords(city_url, city_name)
@@ -82,9 +70,18 @@ function get_city_coords(city_url, city_name)
             console.log(data);
             let city_data = data[0];
 
-            // Add searched city to cities array, and save locally
+            // Add searched city to cities array, save locally, and generate the selection button
             cities[city_name] = new City (city_data.name, city_data.lat, city_data.lon);
             cities[city_name].save();
+            cities[city_name].generate_sel();
+
+            // Now that the city coords have been fetched, fetch the API and get the weather forecast
+            let lat_coord = cities[city_name].latitude;
+            let lon_coord = cities[city_name].longitude;
+        
+            let forecast_url = `${OW_URL}?lat=${lat_coord}&lon=${lon_coord}&units=imperial&appid=${API_KEY}`;
+        
+            get_weather_forecast(forecast_url, city_name);
         });
 }
 
@@ -128,8 +125,8 @@ function display_weather_conditions (weather_data, city_name)
 
     // Create heading with city name and its date
     let city_heading = document.createElement("h3");
-    city_heading.innerHTML = `${city_name} (${month}/${day}/${year}) ${WEATHER_ICONS[weather_desc]}`;
-
+    city_heading.innerHTML = `${cities[city_name].name} (${month}/${day}/${year}) ${WEATHER_ICONS[weather_desc]}`;
+    
     let uv_index = weather_data.current.uvi;
     let uvi_danger;
 
@@ -230,7 +227,7 @@ function get_weather_description (weather_data)
     let weather_id = weather_data.weather[0].id;
     
     // Check for atmospheric weather conditions (fog, dust, etc) between 700 and 800
-    if (weather_id > 700 || weather_id < 800)
+    if (weather_id > 700 && weather_id < 800)
         weather_desc = 'Atmosphere';
 
     return weather_desc;
