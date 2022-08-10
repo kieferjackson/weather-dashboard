@@ -1,5 +1,5 @@
 const OW_URL = 'https://api.openweathermap.org/data/2.5/onecall';
-const GEO_CITY_URL = 'http://api.openweathermap.org/geo/1.0/direct';
+const GEO_CITY_URL = 'https://api.openweathermap.org/geo/1.0/direct';
 const API_KEY = '5e421b2b8615d032baea541e45065bb4';
 
 const CITY_FIELD = document.querySelector('#city_input');
